@@ -24,9 +24,9 @@ if st.button("Analisar"):
     
     st.write("**Pontuações:**", scores)
     
-    if scores['compound'] >= 0.35:
-        st.success("Sentimento: Positivo 😊")
+    if scores['compound'] >= 0.25:
+        st.success("Sentimento: Positivo")
     elif scores['compound'] <= -0.25:
-        st.error("Sentimento: Negativo 😠")
+        st.error("Sentimento: Negativo")
     else:
-        st.info("Sentimento: Neutro 😐")
+        st.info("Sentimento: Neutro")
