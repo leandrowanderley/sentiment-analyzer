@@ -1,0 +1,31 @@
+# Ambiente virtual
+.venv/
+venv/
+
+# Arquivos do Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Arquivos temporários
+*.log
+*.tmp
+*.swp
+*.bak
+
+# Dados Jupyter
+.ipynb_checkpoints/
+
+# Configurações do VS Code
+.vscode/
+
+# Cache do pip
+pip-wheel-metadata/
+*.egg-info/
+dist/
+build/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
