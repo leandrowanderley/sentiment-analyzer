@@ -14,19 +14,19 @@
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import streamlit as st
 
-st.title("Análise de Sentimento com Vader")
+st.title("Sentiment Analyzer using Vader")
 
-text = st.text_area("Digite um texto:")
+text = st.text_area("Type a text:")
 
-if st.button("Analisar"):
+if st.button("Analyze"):
     analyzer = SentimentIntensityAnalyzer()
     scores = analyzer.polarity_scores(text)
     
-    st.write("**Pontuações:**", scores)
+    st.write("**Scoring:**", scores)
     
     if scores['compound'] >= 0.25:
-        st.success("Sentimento: Positivo")
+        st.success("Feeling: Positive")
     elif scores['compound'] <= -0.25:
-        st.error("Sentimento: Negativo")
+        st.error("Feeling: Negative")
     else:
-        st.info("Sentimento: Neutro")
+        st.info("Feeling: Neutral")

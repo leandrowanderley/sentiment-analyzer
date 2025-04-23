@@ -25,11 +25,11 @@
 from transformers import pipeline
 import streamlit as st
 
-st.title("Análise de Sentimento com Transformers")
+st.title("Sentiment Analyzer using Transformers")
 
-text = st.text_area("Digite um texto:")
+text = st.text_area("Type a text:")
 
-if st.button("Analisar"):
+if st.button("Analyze"):
     classifier = pipeline("sentiment-analysis")
     result = classifier(text)[0]
-    st.write(f"**Sentimento:** {result['label']} (score: {result['score']:.2f})")
+    st.write(f"**Feeling:** {result['label']} (score: {result['score']:.2f})")

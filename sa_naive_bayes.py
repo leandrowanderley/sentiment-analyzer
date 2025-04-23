@@ -18,8 +18,9 @@ data = {
         "Péssimo. Atuação fraca e enredo ruim.",
         "Um dos melhores filmes que já vi!",
         "Que decepção. História sem graça.",
+        "Fora Carille!",
     ],
-    'sentimento': ['positivo', 'negativo', 'positivo', 'negativo', 'positivo', 'negativo']
+    'sentimento': ['positivo', 'negativo', 'positivo', 'negativo', 'positivo', 'negativo', 'negativo']
 }
 
 df = pd.DataFrame(data)
@@ -29,7 +30,7 @@ model = make_pipeline(TfidfVectorizer(), MultinomialNB())
 model.fit(df['texto'], df['sentimento'])
 
 # App com Streamlit
-st.title("Análise de Sentimento Naive Bayes")
+st.title("Análise de Sentimento usando scikit-learn e Naive Bayes")
 
 user_text = st.text_area("Digite um texto:")
 
