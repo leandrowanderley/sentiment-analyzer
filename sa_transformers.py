@@ -2,19 +2,24 @@
 # Neutral: "yeah, kinda liked, but i also didnt like it, but not that much, is ok" - "Feeling: Label_1 (Score: 0.47)"
 # Negative: "I hated this video, looks horrible!!!!"- "Feeling: Label_0 (Score: 0.98)"
 
-
-from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import pipeline
 import gradio as gr
 
-model_name = "cardiffnlp/twitter-roberta-base-sentiment"
-classifier = pipeline("sentiment-analysis", model=model_name, tokenizer=model_name)
+# pipeline é um atalho da Hugging Face: ele conecta automaticamente modelo + tokenizer + tipo de tarefa (sentiment-analysis).
+local_model_path = "./twitter-roberta-sentiment-local"
+classifier = pipeline("sentiment-analysis", model=local_model_path, tokenizer=local_model_path)
 
-# Função para analisar o texto
+# Function to analyze sentiment
 def analyze_sentiment(text):
     result = classifier(text)[0]
     label = result['label']
     score = result['score']
+    if label == "LABEL_0":
+        label = "negative"
+    elif label == "LABEL_1":
+        label = "neutral"
+    elif label == "LABEL_2":
+        label = "positive"
     return f"Feeling: {label.capitalize()} (Score: {score:.2f})"
 
 iface = gr.Interface(

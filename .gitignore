@@ -2,6 +2,10 @@
 .venv/
 venv/
 
+# Modelos
+.twitter-roberta-sentiment-local/
+twitter-roberta-sentiment-local/
+
 # Arquivos do Python
 __pycache__/
 *.py[cod]
