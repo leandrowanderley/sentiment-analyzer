@@ -4,3 +4,4 @@ scikit-learn
 vaderSentiment
 transformers
 torch
+gradio

@@ -1,35 +1,29 @@
-# Construção da aplicação de Análise de Sentimento em Python com Streamlit, Hugging Face e transformers
+# Positive: "I loved the news, looking forward to this" - "Feeling: Label_2 (Score: 0.99)"
+# Neutral: "yeah, kinda liked, but i also didnt like it, but not that much, is ok" - "Feeling: Label_1 (Score: 0.47)"
+# Negative: "I hated this video, looks horrible!!!!"- "Feeling: Label_0 (Score: 0.98)"
 
-# Tipo de técnica: Deep Learning com arquitetura Transformer
-# Base de treinamento: SST-2 (Stanford Sentiment Treebank v2)
-# Tipo de análise: Classificação binária (positivo ou negativo)
 
-# Transformers: Arquitetura poderosa baseada em atenção (self-attention), que entende o contexto de palavras mesmo quando estão distantes entre si.
-
-# DistilBERT: Versão reduzida e mais leve do BERT (modelo de linguagem contextualizado da Google).
-
-# Mantém 97% da performance do BERT original com metade do tamanho.
-
-# Fine-tuning: O modelo foi ajustado (refinado) com um conjunto de dados específico de sentimentos (SST-2), tornando-o eficaz nessa tarefa.
-
-# O código utiliza aprendizado profundo com Transformers, mais precisamente o modelo DistilBERT, que já vem treinado para classificar sentimentos com alta precisão.
-
-# Se quiser, posso te mostrar como mudar o modelo, usar modelos em português, ou até treinar um modelo seu com dados específicos! Quer explorar alguma dessas opções?
-
-# Para executar o código:
-# python -m venv venv
-# source venv/bin/activate
-# pip install transformers streamlit
-# streamlit run /Users/leandrowanderley/Documents/programacao/IA-UFAL/sentiment-analyzer/app.py
-
+from transformers import AutoTokenizer, AutoModelForSequenceClassification
 from transformers import pipeline
-import streamlit as st
+import gradio as gr
 
-st.title("Sentiment Analyzer using Transformers")
+model_name = "cardiffnlp/twitter-roberta-base-sentiment"
+classifier = pipeline("sentiment-analysis", model=model_name, tokenizer=model_name)
 
-text = st.text_area("Type a text:")
-
-if st.button("Analyze"):
-    classifier = pipeline("sentiment-analysis")
+# Função para analisar o texto
+def analyze_sentiment(text):
     result = classifier(text)[0]
-    st.write(f"**Feeling:** {result['label']} (score: {result['score']:.2f})")
+    label = result['label']
+    score = result['score']
+    return f"Feeling: {label.capitalize()} (Score: {score:.2f})"
+
+iface = gr.Interface(
+    fn=analyze_sentiment,
+    inputs=gr.Textbox(lines=5, placeholder="Type a text..."),
+    outputs="text",
+    title="Sentiment Analyzer (Positive / Neutral / Negative)",
+    description="Enter a text to analyze its sentiment."
+)
+
+if __name__ == "__main__":
+    iface.launch()
