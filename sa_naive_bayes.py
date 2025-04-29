@@ -3,8 +3,8 @@
 # pip install scikit-learn pandas streamlit
 # streamlit run naive_bayes.py
 
-import streamlit as st
 import pandas as pd
+import gradio as gr
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
@@ -29,14 +29,23 @@ df = pd.DataFrame(data)
 model = make_pipeline(TfidfVectorizer(), MultinomialNB())
 model.fit(df['texto'], df['sentimento'])
 
-# App com Streamlit
-st.title("Análise de Sentimento usando scikit-learn e Naive Bayes")
+# Função de predição para o Gradio
+def predict_sentiment(text):
+    prediction = model.predict([text])[0]
+    proba = model.predict_proba([text])[0]
+    confidence = max(proba) * 100
+    return prediction, f"{confidence:.2f}%"
 
-user_text = st.text_area("Digite um texto:")
+# Interface Gradio
+iface = gr.Interface(
+    fn=predict_sentiment,
+    inputs=gr.Textbox(lines=4, placeholder="Digite um texto aqui..."),
+    outputs=[
+        gr.Text(label="Sentimento previsto"),
+        gr.Text(label="Confiança")
+    ],
+    title="Análise de Sentimento com Naive Bayes",
+    description="Este app utiliza Naive Bayes com TF-IDF para prever o sentimento de textos em português."
+)
 
-if st.button("Analisar"):
-    prediction = model.predict([user_text])[0]
-    proba = model.predict_proba([user_text])[0]
-
-    st.write(f"**Sentimento previsto:** {prediction}")
-    st.write(f"**Confiança:** {max(proba) * 100:.2f}%")
+iface.launch()

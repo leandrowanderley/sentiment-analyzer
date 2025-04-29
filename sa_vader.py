@@ -1,7 +1,4 @@
-# Baseadas em Regras (Linguísticas)
-# source venv/bin/activate
-# pip install vaderSentiment
-# streamlit run vader.py
+# Baseadas em Regras Linguísticas
 
 # Calcula 4 scores:
 # pos → Positividade
@@ -9,24 +6,33 @@
 # neg → Negatividade
 # compound → Score composto (de -1 a 1)
 
-# O serviço foi INCRÍVEL!!!
-
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
-import streamlit as st
+import gradio as gr
 
-st.title("Sentiment Analyzer using Vader")
+analyzer = SentimentIntensityAnalyzer()
 
-text = st.text_area("Type a text:")
-
-if st.button("Analyze"):
-    analyzer = SentimentIntensityAnalyzer()
+def analyze_sentiment(text):
     scores = analyzer.polarity_scores(text)
+    compound = scores['compound']
     
-    st.write("**Scoring:**", scores)
-    
-    if scores['compound'] >= 0.25:
-        st.success("Feeling: Positive")
-    elif scores['compound'] <= -0.25:
-        st.error("Feeling: Negative")
+    if compound >= 0.25:
+        feeling = "Positive"
+    elif compound <= -0.25:
+        feeling = "Negative"
     else:
-        st.info("Feeling: Neutral")
+        feeling = "Neutral"
+    
+    return scores, feeling
+
+iface = gr.Interface(
+    fn=analyze_sentiment,
+    inputs=gr.Textbox(lines=4, placeholder="Type a text here..."),
+    outputs=[
+        gr.JSON(label="Scoring"),
+        gr.Text(label="Feeling")
+    ],
+    title="Sentiment Analyzer using VADER",
+    description="This app analyzes sentiment using the VADER algorithm (lexicon & rule-based)."
+)
+
+iface.launch()
