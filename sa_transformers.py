@@ -20,14 +20,17 @@ def analyze_sentiment(text):
         label = "neutral"
     elif label == "LABEL_2":
         label = "positive"
-    return f"Feeling: {label.capitalize()} (Reliability: {score:.2f})"
+    return f"{score:.2f}", label
 
 iface = gr.Interface(
     fn=analyze_sentiment,
     inputs=gr.Textbox(lines=5, placeholder="Type a text..."),
-    outputs="text",
-    title="Sentiment Analyzer (Positive / Neutral / Negative)",
-    description="Enter a text to analyze its sentiment."
+    outputs=[
+        gr.Text(label="Reliability"),
+        gr.Text(label="Feeling")
+    ],
+    title="Sentiment Analyzer",
+    description="Enter a text to analyze its sentiment using roBERTa model, Machine Learning."
 )
 
 if __name__ == "__main__":
