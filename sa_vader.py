@@ -29,4 +29,5 @@ iface = gr.Interface(
     description="Enter a text to analyze its sentiment using VADER (Linguistic Rules)."
 )
 
-iface.launch()
+if __name__ == "__main__":
+    iface.launch()

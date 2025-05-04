@@ -30,7 +30,7 @@ iface = gr.Interface(
         gr.Text(label="Feeling")
     ],
     title="Sentiment Analyzer",
-    description="Enter a text to analyze its sentiment using roBERTa model, Machine Learning."
+    description="Enter a text to analyze its sentiment using roBERTa model (Deep Learning)"
 )
 
 if __name__ == "__main__":

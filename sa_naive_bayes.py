@@ -39,7 +39,8 @@ iface = gr.Interface(
         gr.Text(label="Confiança")
     ],
     title="Analisador de Sentimentos",
-    description="Insira um texto para ser analisado usando Naive Bayes."
+    description="Insira um texto para ser analisado usando Naive Bayes (Machine Learning)",
 )
 
-iface.launch()
+if __name__ == "__main__":
+    iface.launch()
